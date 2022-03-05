@@ -1,0 +1,1 @@
+# Distributed SQL Database in Golang, written as a learning goal
