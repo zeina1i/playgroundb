@@ -67,7 +67,9 @@ func (s *Scanner) read() rune {
 	return ch
 }
 
-func (s *Scanner) unread() { _ = s.r.UnreadRune() }
+func (s *Scanner) unread() {
+	s.r.UnreadRune()
+}
 
 func (s *Scanner) peek() rune {
 	ch, err := s.r.Peek(1)
@@ -91,7 +93,7 @@ func (s *Scanner) Scan() (tok tokenType, lit string) {
 	}
 
 	if isAlphabetic(ch) {
-		return s.scanString()
+		return s.scanIDent()
 	}
 
 	switch ch {
@@ -99,10 +101,6 @@ func (s *Scanner) Scan() (tok tokenType, lit string) {
 		return s.scanString()
 	case eof:
 		return 10, ""
-	case '*':
-		return tokenAsterisk, string(ch)
-	case ',':
-		return tokenComma, string(ch)
 	}
 
 	return s.scanSymbol()
@@ -149,6 +147,7 @@ func (s *Scanner) scanNumber() (tok tokenType, lit string) {
 		} else if isDigit(ch) {
 			buf.WriteRune(ch)
 		} else {
+			s.unread()
 			break
 		}
 	}
@@ -205,6 +204,7 @@ func (s *Scanner) scanIDent() (tok tokenType, lit string) {
 		} else if isAlphaNumeric(ch) || ch == '_' {
 			buf.WriteRune(ch)
 		} else {
+			s.unread()
 			break
 		}
 	}
