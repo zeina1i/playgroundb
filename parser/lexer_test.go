@@ -10,7 +10,6 @@ func TestScanner_Scan(t *testing.T) {
 		tok tokenType
 		lit string
 	}{
-		// Special tokens (EOF, ILLEGAL, WS)
 		{tok: tokenWhiteSpace, lit: " "},
 		{tok: tokenIdent, lit: "SELECT"},
 		{tok: tokenWhiteSpace, lit: " "},
