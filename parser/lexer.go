@@ -28,7 +28,6 @@ const (
 	tokenOpenParen             // opening parenthesis (
 	tokenCloseParen            // closing parenthesis )
 	tokenComma                 // comma ,
-	tokenWhiteSpace            // whitespace ' '
 	tokenNone                  // None
 )
 
@@ -81,12 +80,9 @@ func (s *Scanner) peek() rune {
 }
 
 func (s *Scanner) Scan() (tok tokenType, lit string) {
-	ch := s.peek()
+	s.consumeWhiteSpace()
 
-	if isWhiteSpace(ch) {
-		s.consumeWhiteSpace()
-		return tokenWhiteSpace, " "
-	}
+	ch := s.peek()
 
 	if isDigit(ch) {
 		return s.scanNumber()
